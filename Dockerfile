@@ -13,6 +13,13 @@ RUN apt-get update && \
     chmod +x ./configure && \
     ./configure --prefix=$DIR/nginx --with-compat --with-file-aio --with-threads --with-http_ssl_module --with-stream --with-stream_ssl_module --with-http_sub_module --with-http_gzip_static_module --add-module=/nginx_build/module/nginx-module-vts && \
     make && \
+    mkdir -p /nginx_build/stable/nginx/sbin && \
+    mkdir -p /nginx_build/stable/nginx/logs && \
+    mkdir -p /nginx_build/stable/nginx/client_body_temp && \
+    mkdir -p /nginx_build/stable/nginx/fastcgi_temp && \
+    mkdir -p /nginx_build/stable/nginx/proxy_temp && \
+    mkdir -p /nginx_build/stable/nginx/scgi_temp && \
+    mkdir -p /nginx_build/stable/nginx/uwsgi_temp && \
     cp ./objs/nginx /nginx_build/stable/nginx/sbin/ && \
     chown -R $UID:$GID /nginx_build/stable/nginx
 
