@@ -15,6 +15,7 @@ RUN apt-get update && \
     make && \
     mkdir -p /nginx_build/stable/nginx/sbin && \
     mkdir -p /nginx_build/stable/nginx/logs && \
+    mkdir -p /nginx_build/stable/nginx/conf/conf.d/stream && \
     mkdir -p /nginx_build/stable/nginx/client_body_temp && \
     mkdir -p /nginx_build/stable/nginx/fastcgi_temp && \
     mkdir -p /nginx_build/stable/nginx/proxy_temp && \
