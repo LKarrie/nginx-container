@@ -36,6 +36,10 @@ ARG UID=1501 \
 ENV NGINX_VERSION=1.20.2 \
     PATH=$PATH:$DIR/nginx/sbin
  
+COPY docker-entrypoint.sh /
+COPY 30-tune-worker-processes.sh /docker-entrypoint.d/
+COPY 40-add-sys-app-pod-to-logpath.sh /docker-entrypoint.d/
+
 RUN addgroup --system --gid $GID $GRP && \
     adduser --system --disabled-login --ingroup $GRP --no-create-home --home $DIR/$USR --gecos "nginx user" --shell /bin/false --uid $UID $USR && \
     ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
@@ -43,12 +47,8 @@ RUN addgroup --system --gid $GID $GRP && \
     apt-get update && \
     apt-get install --no-install-recommends --no-install-suggests -y ca-certificates gettext-base curl ncat && \
     apt-get remove --purge --auto-remove -y && \
-    rm -rf /var/lib/apt/lists/* /etc/apt/sources.list.d/* && \
-    chmod +x docker-entrypoint.sh 30-tune-worker-processes.sh 40-add-sys-app-pod-to-logpath.sh
-
-COPY docker-entrypoint.sh /
-COPY 30-tune-worker-processes.sh /docker-entrypoint.d/
-COPY 40-add-sys-app-pod-to-logpath.sh /docker-entrypoint.d/
+    rm -rf /var/lib/apt/lists/* /etc/apt/sources.list.d/*
+    chmod +x /docker-entrypoint.sh /docker-entrypoint.d/30-tune-worker-processes.sh /docker-entrypoint.d/40-add-sys-app-pod-to-logpath.sh
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
 
