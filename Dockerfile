@@ -10,6 +10,7 @@ WORKDIR /nginx_build/nginx-1.20.2/
 
 RUN apt-get update && \
     apt-get install -y make patch procps gcc g++ libpcre3 libpcre3-dev zlib1g zlib1g-dev openssl libssl-dev build-essential && \
+    chmod +x ./configure && \
     ./configure --prefix=$DIR/nginx --with-compat --with-file-aio --with-threads --with-http_ssl_module --with-stream --with-stream_ssl_module --with-http_sub_module --with-http_gzip_static_module --add-module=/nginx_build/module/nginx-module-vts && \
     make && \
     cp ./objs/nginx /nginx_build/stable/nginx/sbin/ && \
