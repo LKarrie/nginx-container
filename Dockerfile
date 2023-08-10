@@ -47,7 +47,7 @@ RUN addgroup --system --gid $GID $GRP && \
     apt-get update && \
     apt-get install --no-install-recommends --no-install-suggests -y ca-certificates gettext-base curl ncat && \
     apt-get remove --purge --auto-remove -y && \
-    rm -rf /var/lib/apt/lists/* /etc/apt/sources.list.d/*
+    rm -rf /var/lib/apt/lists/* /etc/apt/sources.list.d/* && \
     chmod +x /docker-entrypoint.sh /docker-entrypoint.d/30-tune-worker-processes.sh /docker-entrypoint.d/40-add-sys-app-pod-to-logpath.sh
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
