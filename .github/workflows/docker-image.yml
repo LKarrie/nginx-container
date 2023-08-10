@@ -16,11 +16,15 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
 
+      # Get tag
+      - name: Get version
+        id: get_version
+        run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
+
       # Runs a set of commands using the runners shell
       - name: Build image
         run: |
-          docker build . --file Dockerfile --tag ${{ secrets.DOCKER_USERNAME }}/nginx:${{ github.ref }}
-      
+          docker build . --file Dockerfile --tag ${{ secrets.DOCKER_USERNAME }}/nginx:${{ steps.get_version.outputs.VERSION }}
       - name: Log in to Docker Hub
         uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
         with:
@@ -30,4 +34,4 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: Push to Docker Registry
         run: |
-          docker push ${{ secrets.DOCKER_USERNAME }}/nginx:${{ github.ref }}      
+          docker push ${{ secrets.DOCKER_USERNAME }}/nginx:${{ steps.get_version.outputs.VERSION }}
